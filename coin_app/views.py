@@ -3,8 +3,9 @@ from django.http import JsonResponse
 from .models import Game
 from django.views.decorators.csrf import csrf_exempt
 import datetime
-import json
+# import json
 from django.contrib.auth.models import User
+# import urllib
 
 # {"userName":"guest","gameNumber":1,"gameType":9,"falseCoin":"1+","finalScore":"0/3=0:04","measurements":[{"time":"0:04","ankh":[30,0],"feather":[593,0],"coin8":[588,-309],"coin7":[528,-211],"coin6":[214,-233],"coin5":[65,-298],"coin4":[316,0],"coin3":[263,0],"coin2":[210,0],"coin1":[156,0],"coin0":[103,0]}]}
 
@@ -43,39 +44,17 @@ def game_api(request, gameNumber):
 def save_game_api(request):
     if request.method == 'POST':
 
-        data = ''
-
-
-        for x, y in request.POST.items():
-            data += x
-            data += y
-
-        # print(request.POST.keys())
-
-        data = json.loads(data)
-
         game = Game()
-        user = User.objects.get(username=data['userName'])
+        user = User.objects.get(username=request.POST.get('userName','guest'))
         game.user = user
 
-
-        game.gameNumber = int(data['gameNumber'])
-        # game.date = datetime.date.today()
+        game.gameNumber = int(request.POST.get('gameNumber', None))
         game.date = datetime.datetime.now()
-        game.gameType = data['gameType']
-        game.finalScore = data['finalScore']
-        game.falseCoin = data['falseCoin']
-        game.measurements = data['measurements']
-
-
-
-        # game.gameNumber = int(request.POST.get('gameNumber', None))
-        # # game.date = datetime.date.today()
-        # game.date = datetime.datetime.now()
-        # game.gameType = request.POST.get('gameType', None)
-        # game.finalScore = request.POST.get('finalScore', None)
-        # game.falseCoin = request.POST.get('falseCoin', None)
-        # game.measurements = request.POST.get('measurements', None)
+        game.gameType = request.POST.get('gameType', None)
+        game.finalScore = request.POST.get('finalScore', None)
+        game.falseCoin = request.POST.get('falseCoin', None)
+        game.measurements = request.POST.get('measurements', None)
+        # game.measurements = urllib.parse.unquote(request.POST.get('measurements', None))
 
         game.save()
         return JsonResponse({'message': 'success'})
