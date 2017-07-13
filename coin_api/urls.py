@@ -16,10 +16,16 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from coin_app import views as game_views
+from accounts.views import register
 
 urlpatterns = [
+
     url(r'^admin/', admin.site.urls),
 
+    # Accounts
+    url(r'^accounts/register/', register, name='register'),
+
+    # API
     url(r'^api/gamelist/', game_views.game_list_api, name='gamelist_api'),
 
     url(r'^api/game/(?P<game_number>[-\w]+)/?$', game_views.game_api, name='game_api'),

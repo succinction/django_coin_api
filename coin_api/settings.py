@@ -37,10 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'corsheaders',
-
-    'coin_app',
+    'accounts.apps.AccountsConfig',
+    'coin_app.apps.CoinAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -85,6 +84,11 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
+# Auth model
+AUTH_USER_MODEL = 'accounts.User'
+
 
 
 # Password validation

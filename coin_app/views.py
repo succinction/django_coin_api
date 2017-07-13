@@ -4,7 +4,7 @@ from .models import Game
 from django.views.decorators.csrf import csrf_exempt
 import datetime
 # import json
-from django.contrib.auth.models import User
+from accounts.models import User
 # import urllib
 
 # {"userName":"guest","gameNumber":1,"gameType":9,"falseCoin":"1+","finalScore":"0/3=0:04","measurements":[{"time":"0:04","ankh":[30,0],"feather":[593,0],"coin8":[588,-309],"coin7":[528,-211],"coin6":[214,-233],"coin5":[65,-298],"coin4":[316,0],"coin3":[263,0],"coin2":[210,0],"coin1":[156,0],"coin0":[103,0]}]}
