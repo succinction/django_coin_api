@@ -20,6 +20,8 @@ from accounts.views import register
 
 urlpatterns = [
 
+    # url(r'^$', views.home, name='home')
+
     url(r'^admin/', admin.site.urls),
 
     # Accounts
