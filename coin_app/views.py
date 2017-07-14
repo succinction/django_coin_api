@@ -57,19 +57,19 @@ def save_game_api(request):
     if request.method == 'POST':
         game = Game()
 
-        if request.user.is_anonymous():
-            anaons = User.objects.filter(is_guest=True).latest('guest_number')
-            next_guest = anaons.guest_number + 1
+        # if request.user.is_anonymous():
+        #     anaons = User.objects.filter(is_guest=True).latest('guest_number')
+        #     next_guest = anaons.guest_number + 1
+        #
+        #     user = User()
+        #     user.username = f'Guest_{next_guest}'
+        #     user.set_password('guest123')
+        #     user.is_guest = True
+        #     user.save()
+        #
+        #     login(request, user)
 
-            user = User()
-            user.username = f'Guest_{next_guest}'
-            user.set_password('guest123')
-            user.is_guest = True
-            user.save()
-
-            login(request, user)
-
-        # user = User.objects.get(username=request.POST.get('userName', 'guest'))
+        user = User.objects.get(username=request.POST.get('userName', 'guest'))
         game.user = user
 
         game.gameNumber = int(request.POST.get('gameNumber', None))
