@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-# Create your models here.
+
 
 
 class User(AbstractUser):
@@ -18,7 +18,7 @@ class User(AbstractUser):
     rank = models.PositiveSmallIntegerField(null=True, blank=True)
 
     is_guest = models.BooleanField(default=True)
-    guest_number = models.PositiveIntegerField(default=1, null=True, blank=True)
+    guest_number = models.PositiveIntegerField(default=0, null=True, blank=True)
 
     def __str__(self):
         return self.username

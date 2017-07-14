@@ -59,7 +59,7 @@ def save_game_api(request):
 
         if request.user.is_anonymous():
             anaons = User.objects.filter(is_guest=True).latest('guest_number')
-            next_guest = anaons.guest_number + 2
+            next_guest = anaons.guest_number + 1
 
             user = User()
             user.username = f'Guest_{next_guest}'
