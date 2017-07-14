@@ -23,8 +23,6 @@ def game_list_api(request):
             'gameNumber': game.gameNumber,
             'date': game.date,
             'gameType': game.gameType,
-            # 'finalScore': game.finalScore,
-            # 'totalCoins': game.totalCoins,
             'numberOfMeasurements': game.numberOfMeasurements,
             'finalTime': game.finalTime,
 
@@ -40,12 +38,8 @@ def game_api(request, gameNumber):
         'gameNumber': game.gameNumber,
         'date': game.date,
         'gameType': game.gameType,
-        # 'finalScore': game.finalScore,
-
-        # 'totalCoins': game.totalCoins,
         'numberOfMeasurements': game.numberOfMeasurements,
         'finalTime': game.finalTime,
-
         'falseCoin': game.falseCoin,
         'measurements': game.measurements,
     }
@@ -60,13 +54,11 @@ def save_game_api(request):
         # if request.user.is_anonymous():
         #     anaons = User.objects.filter(is_guest=True).latest('guest_number')
         #     next_guest = anaons.guest_number + 1
-        #
         #     user = User()
         #     user.username = f'Guest_{next_guest}'
         #     user.set_password('guest123')
         #     user.is_guest = True
         #     user.save()
-        #
         #     login(request, user)
 
         user = User.objects.get(username=request.POST.get('userName', 'guest'))
@@ -75,9 +67,6 @@ def save_game_api(request):
         game.gameNumber = int(request.POST.get('gameNumber', None))
         game.date = datetime.datetime.now()
         game.gameType = request.POST.get('gameType', None)
-        # game.finalScore = request.POST.get('finalScore', None)
-
-        # game.totalCoins = request.POST.get('totalCoins', None)
         game.numberOfMeasurements = request.POST.get('numberOfMeasurements', None)
         game.finalTime = request.POST.get('finalTime', None)
 

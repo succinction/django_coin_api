@@ -9,9 +9,6 @@ class Game(models.Model):
     gameNumber = models.PositiveIntegerField()
     date = models.DateTimeField(auto_now_add=True)
     gameType = models.PositiveSmallIntegerField()
-    # finalScore = models.CharField(max_length=24)
-
-    # totalCoins = models.PositiveSmallIntegerField()
     numberOfMeasurements = models.PositiveSmallIntegerField()
     finalTime = models.CharField(max_length=16)
 
