@@ -7,6 +7,8 @@ import datetime
 # import json
 from accounts.models import User
 
+# from lazysignup.decorators import allow_lazy_user
+
 
 # import urllib
 
@@ -47,22 +49,30 @@ def game_api(request, gameNumber):
 
 
 @csrf_exempt
+# @allow_lazy_user
 def save_game_api(request):
+
     if request.method == 'POST':
         game = Game()
 
-        # if request.user.is_anonymous():
-        #     anaons = User.objects.filter(is_guest=True).latest('guest_number')
-        #     next_guest = anaons.guest_number + 1
-        #     user = User()
-        #     user.username = f'Guest_{next_guest}'
-        #     user.set_password('guest123')
-        #     user.is_guest = True
-        #     user.save()
-        #     login(request, user)
+        user = User.objects.get(username=request.POST.get('userName', 'default'))
 
-        user = User.objects.get(username=request.POST.get('userName', 'guest'))
+        if user.username == 'guest' or user.username == 'default':
+        # if request.user.is_anonymous():
+            anaons = User.objects.filter(is_guest=True).latest('guest_number')
+            next_guest = anaons.guest_number + 1
+            user = User()
+            user.username = f'Guest_{next_guest}'
+            user.set_password('guest123')
+            user.is_guest = True
+            user.guest_number = next_guest
+            user.save()
+            login(request, user)
+        # else:
+        #     user = User.objects.get(username=request.POST.get('userName', 'default'))
+
         game.user = user
+        game.score = request.POST.get('score', 0)
 
         game.gameNumber = int(request.POST.get('gameNumber', None))
         game.date = datetime.datetime.now()
@@ -75,6 +85,17 @@ def save_game_api(request):
         # game.measurements = urllib.parse.unquote(request.POST.get('measurements', None))
 
         game.save()
-        return JsonResponse({'message': 'success'})
+
+        # SCORE LOGIC
+        user.attempts += 1
+        won = 1 if int(game.score) == 1 else 0
+        user.wins += won
+        user.current_streak = user.current_streak + won if won == 1 else 0
+        user.best_streak = user.current_streak if user.current_streak > user.best_streak else user.best_streak
+        user.save()
+
+
+
+        return JsonResponse({'message': 'success', 'newGuest': user.username})
 
     return JsonResponse({'message': 'fail'})

@@ -13,8 +13,8 @@ class User(AbstractUser):
     score = models.PositiveSmallIntegerField(default=0)
     attempts = models.PositiveSmallIntegerField(default=0)
     wins = models.PositiveSmallIntegerField(default=0)
-    current_streak = models.IntegerField(null=True, blank=True)
-    best_streak = models.IntegerField(null=True, blank=True)
+    current_streak = models.PositiveSmallIntegerField(default=0)
+    best_streak = models.PositiveSmallIntegerField(default=0)
     rank = models.PositiveSmallIntegerField(null=True, blank=True)
 
     is_guest = models.BooleanField(default=True)

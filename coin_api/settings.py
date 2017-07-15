@@ -90,7 +90,6 @@ DATABASES = {
 AUTH_USER_MODEL = 'accounts.User'
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -109,7 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -123,13 +121,14 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
 
-
 CORS_ORIGIN_ALLOW_ALL = True
 
-
+# AUTHENTICATION_BACKENDS = (
+#   'django.contrib.auth.backends.ModelBackend',
+#   'lazysignup.backends.LazySignupBackend',
+# )
