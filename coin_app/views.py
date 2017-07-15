@@ -73,6 +73,8 @@ def save_game_api(request):
 
         game.user = user
         game.score = request.POST.get('score', 0)
+        game.duration = request.POST.get('duration', 0)
+        game.cheat = request.POST.get('cheat', False)
 
         game.gameNumber = int(request.POST.get('gameNumber', None))
         game.date = datetime.datetime.now()

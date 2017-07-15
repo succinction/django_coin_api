@@ -13,7 +13,8 @@ class Game(models.Model):
     # finalTime = models.DurationField()
     finalTime = models.CharField(max_length=16)
 
-
+    duration = models.PositiveSmallIntegerField()
+    cheat = models.BooleanField(default=False)
 
     falseCoin = models.CharField(max_length=4)
     measurements = models.TextField()
