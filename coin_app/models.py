@@ -8,17 +8,12 @@ class Game(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     gameType = models.PositiveSmallIntegerField()
     numberOfMeasurements = models.PositiveSmallIntegerField()
-
-    # finalTime = models.PositiveSmallIntegerField()
-    # finalTime = models.DurationField()
     finalTime = models.CharField(max_length=16)
-
     duration = models.PositiveSmallIntegerField()
+    score = models.FloatField( blank=True, null=True,)
     cheat = models.BooleanField(default=False)
-
     falseCoin = models.CharField(max_length=4)
     measurements = models.TextField()
-
     class Meta:
         ordering = ['-date']
     

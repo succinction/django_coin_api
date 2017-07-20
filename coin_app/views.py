@@ -4,15 +4,30 @@ from django.http import JsonResponse
 from .models import Game
 from django.views.decorators.csrf import csrf_exempt
 import datetime
-# import json
+import json
 from accounts.models import User
 
-# from lazysignup.decorators import allow_lazy_user
-
-
-# import urllib
 
 # {"userName":"guest","gameNumber":1,"gameType":9,"falseCoin":"1+","finalScore":"0/3=0:04","measurements":[{"time":"0:04","ankh":[30,0],"feather":[593,0],"coin8":[588,-309],"coin7":[528,-211],"coin6":[214,-233],"coin5":[65,-298],"coin4":[316,0],"coin3":[263,0],"coin2":[210,0],"coin1":[156,0],"coin0":[103,0]}]}
+
+
+@csrf_exempt
+def leaderboard_api(request):
+
+    # HOW DO I GET ONLY GAMES THAT HAVE HIGHEST SCORES TOP 10
+    games = Game.objects.all()
+    # HOW DO I GET ONLY USERS WITH HIGHEST SCORES
+    # users = User
+    data = []
+    for game in games:
+        data.append({
+            'id': game.id,
+            'userName': game.user.username,
+            'date': game.date,
+            'gameType': game.gameType,
+            'finalTime': game.finalTime,
+        })
+    return JsonResponse(data, safe=False)
 
 
 @csrf_exempt
@@ -33,9 +48,11 @@ def game_list_api(request):
 
 
 @csrf_exempt
-def game_api(request, gameNumber):
-    game = Game.objects.get(gameNumber=gameNumber)
+def game_api(request, id):
+    game = Game.objects.get(id=id)
     data = {
+
+        'id': game.id,
         'user': game.user.username,
         'gameNumber': game.gameNumber,
         'date': game.date,
@@ -45,11 +62,11 @@ def game_api(request, gameNumber):
         'falseCoin': game.falseCoin,
         'measurements': game.measurements,
     }
+    # json._default_encoder
     return JsonResponse(data, safe=False)
 
 
 @csrf_exempt
-# @allow_lazy_user
 def save_game_api(request):
 
     if request.method == 'POST':
@@ -72,7 +89,7 @@ def save_game_api(request):
         #     user = User.objects.get(username=request.POST.get('userName', 'default'))
 
         game.user = user
-        game.score = request.POST.get('score', 0)
+
         game.duration = request.POST.get('duration', 0)
         game.cheat = request.POST.get('cheat', False)
         game.gameNumber = int(request.POST.get('gameNumber', None))
@@ -85,18 +102,26 @@ def save_game_api(request):
         game.measurements = request.POST.get('measurements', None)
         # game.measurements = urllib.parse.unquote(request.POST.get('measurements', None))
 
+        gamewon = int(request.POST.get('won', 0))
+
+        scoring = 0 if gamewon == 0 else int(game.gameType) / (1 + (int(game.duration) / 60))
+
+        game.score = scoring
+
         game.save()
 
         # SCORE LOGIC
+
+        if gamewon == 1:
+            user.score += game.score
+            user.best_score = game.score if game.score > user.best_score else user.best_score
         user.attempts += 1
-        won = 1 if int(game.score) == 1 else 0
+        won = 1 if int(gamewon) == 1 else 0
         user.wins += won
         user.current_streak = user.current_streak + won if won == 1 else 0
         user.best_streak = user.current_streak if user.current_streak > user.best_streak else user.best_streak
         user.save()
 
-
-
-        return JsonResponse({'message': 'success', 'newGuest': user.username})
+        return JsonResponse({'message': 'success', 'newGuest': user.username, 'gameID': game.id})
 
     return JsonResponse({'message': 'fail'})

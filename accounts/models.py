@@ -10,7 +10,8 @@ class User(AbstractUser):
     first_name, last_name, password, username,
     """
     email = models.EmailField(null=True, blank=True)
-    score = models.PositiveSmallIntegerField(default=0)
+    score = models.FloatField(default=0)
+    best_score = models.FloatField(default=0)
     attempts = models.PositiveSmallIntegerField(default=0)
     wins = models.PositiveSmallIntegerField(default=0)
     current_streak = models.PositiveSmallIntegerField(default=0)
