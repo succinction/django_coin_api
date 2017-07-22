@@ -30,7 +30,8 @@ urlpatterns = [
     # API
     url(r'^api/gamelist/', game_views.game_list_api, name='gamelist_api'),
 
-    url(r'^api/leaderboard/', game_views.leaderboard_api, name='leaderboard_api'),
+    # HOW DO I PASS IN MULTIPLE ARGUMENTS IN THE URL
+    url(r'^api/leaderboard/(?P<thisuser>[-\w]+)/?(?P<selected_user>[-\w]+)?$', game_views.leaderboard_api, name='leaderboard_api'),
 
     url(r'^api/game/(?P<id>[-\w]+)/?$', game_views.game_api, name='game_api'),
 

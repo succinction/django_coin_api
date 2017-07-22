@@ -4,35 +4,92 @@ from django.http import JsonResponse
 from .models import Game
 from django.views.decorators.csrf import csrf_exempt
 import datetime
-import json
 from accounts.models import User
 
 
-# {"userName":"guest","gameNumber":1,"gameType":9,"falseCoin":"1+","finalScore":"0/3=0:04","measurements":[{"time":"0:04","ankh":[30,0],"feather":[593,0],"coin8":[588,-309],"coin7":[528,-211],"coin6":[214,-233],"coin5":[65,-298],"coin4":[316,0],"coin3":[263,0],"coin2":[210,0],"coin1":[156,0],"coin0":[103,0]}]}
-
-
 @csrf_exempt
-def leaderboard_api(request):
+def leaderboard_api(request, thisuser, selected_user=None):
+    if selected_user is None:
+        selected_user = User.objects.all()[0].username
+    your_stats = User.objects.get(username=thisuser)
+    your_last_games = Game.objects.filter(user__username=selected_user).order_by('-date')[:10]
+    best_games = Game.objects.all()[:10]
+    selected_player_games = Game.objects.filter(user__username=selected_user)[:10]
+    best_players = User.objects.all()[:20]
+    your_best_games = Game.objects.filter(user__username=thisuser)[:10]
+    Your_Stats = {'username': your_stats.username,
+                  'rank': your_stats.rank,
+                  'yourOverall': your_stats.overall_score,
+                  'score': your_stats.score,
+                  'bestScore': your_stats.best_score,
+                  'wins': your_stats.wins,
+                  'attempts': your_stats.attempts,
+                  'currentStreak': your_stats.current_streak,
+                  'bestStreak': your_stats.best_streak}
 
-    # HOW DO I GET ONLY GAMES THAT HAVE HIGHEST SCORES TOP 10
-    games = Game.objects.all()
-    # HOW DO I GET ONLY USERS WITH HIGHEST SCORES
-    # users = User
-    data = []
-    for game in games:
-        data.append({
-            'id': game.id,
-            'userName': game.user.username,
+    data = {'yourStats': Your_Stats,
+            'yourBestGames': [],
+            'yourLastGames': [],
+            'bestGames': [],
+            'bestPlayers': [],
+            'selectedPlayerGames': []}
+
+    for game in your_best_games:
+        data['yourBestGames'].append({
+            'gameID': game.id,
+            # 'finalTime': game.finalTime,
+            # 'score': game.score,
+            # 'gameType': game.gameType,
             'date': game.date,
-            'gameType': game.gameType,
-            'finalTime': game.finalTime,
         })
+
+    for game in your_last_games:
+        data['yourLastGames'].append({
+            'gameID': game.id,
+            'finalTime': game.finalTime,
+            'score': game.score,
+            'gameType': game.gameType,
+            'date': game.date,
+        })
+
+    for game in best_games:
+        data['bestGames'].append({
+            'userName': game.user.username,
+            'gameID': game.id,
+            'finalTime': game.finalTime,
+            'score': game.score,
+            'gameType': game.gameType,
+            'date': game.date,
+        })
+
+    for game in selected_player_games:
+        data['selectedPlayerGames'].append({
+            'userName': game.user.username,
+            'gameID': game.id,
+            'finalTime': game.finalTime,
+            'score': game.score,
+            'gameType': game.gameType,
+            'date': game.date,
+        })
+
+    for player in best_players:
+        data['bestPlayers'].append({
+            'username': player.username,
+            'overall': player.overall_score,
+            'score': player.score,
+            'bestScore': player.best_score,
+            'wins': player.wins,
+            'attempts': player.attempts,
+            'currentStreak': player.current_streak,
+            'bestStreak': player.best_streak
+        })
+
     return JsonResponse(data, safe=False)
 
 
 @csrf_exempt
 def game_list_api(request):
-    games = Game.objects.all()
+    games = Game.objects.all()[:20]
     data = []
     for game in games:
         data.append({
@@ -51,7 +108,6 @@ def game_list_api(request):
 def game_api(request, id):
     game = Game.objects.get(id=id)
     data = {
-
         'id': game.id,
         'user': game.user.username,
         'gameNumber': game.gameNumber,
@@ -68,14 +124,11 @@ def game_api(request, id):
 
 @csrf_exempt
 def save_game_api(request):
-
     if request.method == 'POST':
         game = Game()
-
-        user = User.objects.get(username=request.POST.get('userName', 'default'))
-
-        if user.username == 'guest' or user.username == 'default':
-        # if request.user.is_anonymous():
+        # user = User.objects.get(username=request.POST.get('userName', 'default'))
+        # if user.username == 'guest' or user.username == 'default':
+        if request.user.is_authenticated() is False:
             anaons = User.objects.filter(is_guest=True).latest('guest_number')
             next_guest = anaons.guest_number + 1
             user = User()
@@ -85,11 +138,8 @@ def save_game_api(request):
             user.guest_number = next_guest
             user.save()
             login(request, user)
-        # else:
-        #     user = User.objects.get(username=request.POST.get('userName', 'default'))
-
+        #     authenticate
         game.user = user
-
         game.duration = request.POST.get('duration', 0)
         game.cheat = request.POST.get('cheat', False)
         game.gameNumber = int(request.POST.get('gameNumber', None))
@@ -97,21 +147,14 @@ def save_game_api(request):
         game.gameType = request.POST.get('gameType', None)
         game.numberOfMeasurements = request.POST.get('numberOfMeasurements', None)
         game.finalTime = request.POST.get('finalTime', None)
-
         game.falseCoin = request.POST.get('falseCoin', None)
         game.measurements = request.POST.get('measurements', None)
-        # game.measurements = urllib.parse.unquote(request.POST.get('measurements', None))
-
-        gamewon = int(request.POST.get('won', 0))
-
-        scoring = 0 if gamewon == 0 else int(game.gameType) / (1 + (int(game.duration) / 60))
-
-        game.score = scoring
-
-        game.save()
 
         # SCORE LOGIC
-
+        gamewon = int(request.POST.get('won', 0))
+        scoring = 0 if gamewon == 0 else int(game.gameType) / (1 + (int(game.duration) / 60))
+        game.score = scoring
+        game.save()
         if gamewon == 1:
             user.score += game.score
             user.best_score = game.score if game.score > user.best_score else user.best_score
@@ -120,6 +163,8 @@ def save_game_api(request):
         user.wins += won
         user.current_streak = user.current_streak + won if won == 1 else 0
         user.best_streak = user.current_streak if user.current_streak > user.best_streak else user.best_streak
+        user.overall_score = ((user.best_streak + user.current_streak) / 2) + user.best_score + (
+        user.score / user.attempts)
         user.save()
 
         return JsonResponse({'message': 'success', 'newGuest': user.username, 'gameID': game.id})

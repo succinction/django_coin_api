@@ -14,8 +14,10 @@ class Game(models.Model):
     cheat = models.BooleanField(default=False)
     falseCoin = models.CharField(max_length=4)
     measurements = models.TextField()
+
     class Meta:
-        ordering = ['-date']
+        ordering = ['-score', 'date']
+        # unique_together = ['user', 'gameNumber']
     
     def __str__(self, gameNumber=gameNumber, user=user):
         return "Game object {} {}".format(gameNumber, user)

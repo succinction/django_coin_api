@@ -13,10 +13,9 @@ class CustomUserAdmin(BaseUserAdmin):
 
 
 class UserAdmin(admin.ModelAdmin):
-    pass
-    # list_display = ('finalTime', 'numberOfMeasurements', 'gameNumber', 'user', 'gameType', 'date',)
+    list_display = ('username', 'id', 'overall_score', 'score', 'best_score', 'current_streak', 'best_streak', 'wins', 'attempts',)
+    # pass
 
-
-admin.site.register(User)
+admin.site.register(User, UserAdmin)
 
 

@@ -16,10 +16,13 @@ class User(AbstractUser):
     wins = models.PositiveSmallIntegerField(default=0)
     current_streak = models.PositiveSmallIntegerField(default=0)
     best_streak = models.PositiveSmallIntegerField(default=0)
+    overall_score = models.FloatField(default=0)
     rank = models.PositiveSmallIntegerField(null=True, blank=True)
-
     is_guest = models.BooleanField(default=True)
     guest_number = models.PositiveIntegerField(default=0, null=True, blank=True)
+
+    class Meta:
+        ordering = ['-overall_score']
 
     def __str__(self):
         return self.username
