@@ -10,7 +10,7 @@ class Game(models.Model):
     numberOfMeasurements = models.PositiveSmallIntegerField()
     finalTime = models.CharField(max_length=16)
     duration = models.PositiveSmallIntegerField()
-    score = models.FloatField( blank=True, null=True,)
+    score = models.DecimalField(max_digits=5, decimal_places=2)
     cheat = models.BooleanField(default=False)
     falseCoin = models.CharField(max_length=4)
     measurements = models.TextField()

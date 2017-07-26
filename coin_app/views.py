@@ -126,9 +126,8 @@ def game_api(request, id):
 def save_game_api(request):
     if request.method == 'POST':
         game = Game()
-        # user = User.objects.get(username=request.POST.get('userName', 'default'))
-        # if user.username == 'guest' or user.username == 'default':
-        if request.user.is_authenticated() is False:
+        user = User.objects.get(username=request.POST.get('userName', 'default'))
+        if user.username == 'guest' or user.username == 'default':
             anaons = User.objects.filter(is_guest=True).latest('guest_number')
             next_guest = anaons.guest_number + 1
             user = User()
@@ -163,8 +162,8 @@ def save_game_api(request):
         user.wins += won
         user.current_streak = user.current_streak + won if won == 1 else 0
         user.best_streak = user.current_streak if user.current_streak > user.best_streak else user.best_streak
-        user.overall_score = ((user.best_streak + user.current_streak) / 2) + user.best_score + (
-        user.score / user.attempts)
+        user.overall_score = (
+                    (user.best_streak + user.current_streak) / 2) + user.best_score + (user.score / user.attempts)
         user.save()
 
         return JsonResponse({'message': 'success', 'newGuest': user.username, 'gameID': game.id})
