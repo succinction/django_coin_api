@@ -151,19 +151,19 @@ def save_game_api(request):
 
         # SCORE LOGIC
         gamewon = int(request.POST.get('won', 0))
-        scoring = 0 if gamewon == 0 else int(game.gameType) / (1 + (int(game.duration) / 60))
+        scoring = 0 if gamewon == 0 else round(int(game.gameType) / (1 + (int(game.duration) / 60)), 2)
         game.score = scoring
         game.save()
         if gamewon == 1:
-            user.score += game.score
+            user.score = user.score + game.score
             user.best_score = game.score if game.score > user.best_score else user.best_score
         user.attempts += 1
         won = 1 if int(gamewon) == 1 else 0
         user.wins += won
         user.current_streak = user.current_streak + won if won == 1 else 0
         user.best_streak = user.current_streak if user.current_streak > user.best_streak else user.best_streak
-        user.overall_score = (
-                    (user.best_streak + user.current_streak) / 2) + user.best_score + (user.score / user.attempts)
+        user.overall_score = round((
+                    (user.best_streak + user.current_streak) / 2) + user.best_score + (user.score / user.attempts), 2)
         user.save()
 
         return JsonResponse({'message': 'success', 'newGuest': user.username, 'gameID': game.id})

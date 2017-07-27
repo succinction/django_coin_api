@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3067f5ed-b350-4026-ac0f-e5664e3f9a98" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/accounts/migrations/0011_auto_20170725_2116.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/accounts/migrations/0012_auto_20170725_2135.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/coin_app/migrations/0009_auto_20170725_2127.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/coin_app/migrations/0010_auto_20170725_2129.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/coin_app/migrations/0011_auto_20170725_2135.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/accounts/models.py" afterPath="$PROJECT_DIR$/accounts/models.py" />
@@ -94,18 +97,18 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/accounts/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="14" column="68" lean-forward="true" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="68" />
+            <state relative-caret-position="285">
+              <caret line="20" column="37" lean-forward="false" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="37" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/coin_app/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
-              <caret line="12" column="63" lean-forward="false" selection-start-line="12" selection-start-column="63" selection-end-line="12" selection-end-column="63" />
+              <caret line="12" column="12" lean-forward="false" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -125,11 +128,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/coin_app/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-174">
-              <caret line="128" column="67" lean-forward="false" selection-start-line="128" selection-start-column="59" selection-end-line="128" selection-end-column="67" />
+            <state relative-caret-position="2295">
+              <caret line="153" column="101" lean-forward="false" selection-start-line="153" selection-start-column="101" selection-end-line="153" selection-end-column="101" />
               <folding>
                 <element signature="e#38#89#0" expanded="true" />
               </folding>
@@ -194,9 +197,9 @@
         <option value="$PROJECT_DIR$/coin_app/admin.py" />
         <option value="$PROJECT_DIR$/accounts/admin.py" />
         <option value="$PROJECT_DIR$/coin_api/urls.py" />
-        <option value="$PROJECT_DIR$/coin_app/views.py" />
         <option value="$PROJECT_DIR$/accounts/models.py" />
         <option value="$PROJECT_DIR$/coin_app/models.py" />
+        <option value="$PROJECT_DIR$/coin_app/views.py" />
       </list>
     </option>
   </component>
@@ -594,11 +597,18 @@
       <option name="project" value="LOCAL" />
       <updated>1500689607672</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="persistent user from localStorage">
+      <created>1501042821089</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1501042821089</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="6" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -658,7 +668,8 @@
     <MESSAGE value="Guest users scoring" />
     <MESSAGE value="Guest users scoring progress" />
     <MESSAGE value="Scoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Scoring" />
+    <MESSAGE value="persistent user from localStorage" />
+    <option name="LAST_COMMIT_MESSAGE" value="persistent user from localStorage" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1077,16 +1088,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coin_app/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="34" lean-forward="false" selection-start-line="4" selection-start-column="34" selection-end-line="5" selection-end-column="114" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/accounts/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1105,20 +1106,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coin_app/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-174">
-          <caret line="128" column="67" lean-forward="false" selection-start-line="128" selection-start-column="59" selection-end-line="128" selection-end-column="67" />
-          <folding>
-            <element signature="e#38#89#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/accounts/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="14" column="68" lean-forward="true" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="68" />
+        <state relative-caret-position="285">
+          <caret line="20" column="37" lean-forward="false" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="37" />
           <folding />
         </state>
       </provider>
@@ -1126,9 +1117,29 @@
     <entry file="file://$PROJECT_DIR$/coin_app/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
-          <caret line="12" column="63" lean-forward="false" selection-start-line="12" selection-start-column="63" selection-end-line="12" selection-end-column="63" />
+          <caret line="12" column="12" lean-forward="false" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coin_app/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="34" lean-forward="false" selection-start-line="4" selection-start-column="34" selection-end-line="5" selection-end-column="114" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coin_app/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2295">
+          <caret line="153" column="101" lean-forward="false" selection-start-line="153" selection-start-column="101" selection-end-line="153" selection-end-column="101" />
+          <folding>
+            <element signature="e#38#89#0" expanded="true" />
           </folding>
         </state>
       </provider>
