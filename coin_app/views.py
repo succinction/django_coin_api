@@ -12,7 +12,7 @@ def leaderboard_api(request, thisuser, selected_user=None):
     if selected_user is None:
         selected_user = User.objects.all()[0].username
     your_stats = User.objects.get(username=thisuser)
-    your_last_games = Game.objects.filter(user__username=selected_user).order_by('-date')[:10]
+    your_last_games = Game.objects.filter(user__username=selected_user).order_by('-id')[:10]
     best_games = Game.objects.all()[:10]
     selected_player_games = Game.objects.filter(user__username=selected_user)[:10]
     best_players = User.objects.all()[:20]
@@ -37,9 +37,9 @@ def leaderboard_api(request, thisuser, selected_user=None):
     for game in your_best_games:
         data['yourBestGames'].append({
             'gameID': game.id,
-            # 'finalTime': game.finalTime,
-            # 'score': game.score,
-            # 'gameType': game.gameType,
+            'finalTime': game.finalTime,
+            'score': game.score,
+            'gameType': game.gameType,
             'date': game.date,
         })
 
